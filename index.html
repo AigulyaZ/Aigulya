@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Предоплата — Открыть спор</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        .contract {
+            background-color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        label, input, textarea, select {
+            display: block;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .output {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="contract">
+        <h1>Открыть спор</h1>
+        <p><strong>Исходная стоимость услуг:</strong> <span id="originalAmount">500,000 ₸</span></p>
+        <label for="reason">Причина спора:</label>
+        <textarea id="reason" rows="4" placeholder="Опишите суть конфликта..."></textarea>
+
+        <label for="file">Приложить файл:</label>
+        <input type="file" id="file">
+
+        <label for="split">Скорректированное распределение суммы:</label>
+        <input type="range" id="split" min="0" max="100" value="50">
+        <div class="output">
+            <span>Заказчик: <span id="customerShare">250,000 ₸ (50%)</span></span>
+            <span>Исполнитель: <span id="providerShare">250,000 ₸ (50%)</span></span>
+        </div>
+
+        <button onclick="alert('Спор отправлен!')">Отправить спор</button>
+    </div>
+
+    <script>
+        const originalAmount = 500000;
+        const splitSlider = document.getElementById("split");
+        const customerShare = document.getElementById("customerShare");
+        const providerShare = document.getElementById("providerShare");
+
+        splitSlider.addEventListener("input", () => {
+            const percent = parseInt(splitSlider.value);
+            const customer = Math.round(originalAmount * percent / 100);
+            const provider = originalAmount - customer;
+
+            customerShare.textContent = `${customer.toLocaleString()} ₸ (${percent}%)`;
+            providerShare.textContent = `${provider.toLocaleString()} ₸ (${100 - percent}%)`;
+        });
+    </script>
+</body>
+</html>
